@@ -1,0 +1,67 @@
+/*
+ * Copyright 2017 (C) <University of Coimbra>
+ * 
+ * Created on : 15-02-2017
+ * Author     : Bruno Cabral 
+ */
+
+
+OrderAppFX is an order management application created for the
+Software Architecture course at the University of Coimbra. OrderAppFX is
+part of an application suite used to setup a fictional scenario for
+a student assignment.
+
+
+
+To run OrderAppFX, execute the following steps:
+0 - Open a terminal/cmd at the root of the OrderAppFX directory
+
+1 - Login to mySQL using the root account from the terminal/cmd
+
+mysql -u root -p
+*note: the default password for root in mySQL is empty, 
+thus you should remove "-p" from the command  
+if you have not changed the password.
+
+
+2 - Create the "eteuser" on the localhost mysql database from the mysql shell
+
+create user "eteuser" identified by "123456";
+grant all on *.* to "eteuser" identified by "123456";
+flush privileges;
+
+
+3 - Create the "ete_db" database
+
+create database ete_db;
+
+
+4 - Execute the database creation scrips in the following order
+
+mysql -u eteuser -p ete_db < database/ete_db_Product_types.sql
+mysql -u eteuser -p ete_db < database/ete_db_Products.sql
+mysql -u eteuser -p ete_db < database/ete_db_Clients.sql
+mysql -u eteuser -p ete_db < database/ete_db_Orders.sql
+mysql -u eteuser -p ete_db < database/ete_db_Items.sql
+mysql -u eteuser -p ete_db < database/ete_db_Workers.sql
+
+
+5 - Compile the source code and generate the Jar file
+
+mvn clean jfx:jar
+
+
+6 - Execute the app
+
+java -jar target/jfx/app/OrderAppFX-0.0.1-jfx.jar
+
+If the database is not running on the local host, try the following alternatives:
+
+java -jar /jfx/app/OrderAppFX-0.0.1-jfx.jar <db_server_IP> 
+or
+java -jar /jfx/app/OrderAppFX-0.0.1-jfx.jar <driver> <url> <username> <password> 
+
+
+
+
+
