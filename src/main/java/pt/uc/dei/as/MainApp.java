@@ -10,8 +10,10 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import pt.uc.dei.as.controller.OrderEditorController;
 import pt.uc.dei.as.controller.OrderOverviewController;
 import pt.uc.dei.as.controller.LoginScreenController;
@@ -51,6 +53,8 @@ public class MainApp extends Application {
 	/** The orders data. */
 	private ObservableList<Order> ordersData = FXCollections.observableArrayList();
 
+	/** The */
+	private Worker worker;
 	/**
 	 * Instantiates a new main app.
 	 *
@@ -78,6 +82,14 @@ public class MainApp extends Application {
 		this.ordersData.setAll(ordersData);
 	}
 
+/**
+	 * Sets the worker data.
+	 *
+	 * @param Worker using the app	 */
+	public void setWorker(Worker worker) {
+		this.worker = worker;
+	}
+
 	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
@@ -86,6 +98,13 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("OrderAppFX");
 		this.primaryStage.getIcons().add(new Image("/images/sprout.png"));
+		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+					System.exit(0);
+                	//event.consume();
+                }
+            });
 		Platform.setImplicitExit(true);
 
 		try {

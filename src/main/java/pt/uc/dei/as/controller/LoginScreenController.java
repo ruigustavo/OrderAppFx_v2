@@ -69,11 +69,11 @@ public class LoginScreenController {
 				queryW.setParameter("workers_name", usernameField.getText());
 				w = queryW.getSingleResult();
 				if(w.getWorkers_Password().equals(this.passwordField.getText())) {
+						mainApp.setWorker(w);
 						showOrderOverview();
 				}
 				else{
-					AlertUtil.alert("Login Error","Wrong Username or Password","Try Again");
-				MainApp.refreshEm();				}
+					AlertUtil.alert("Login Error","Wrong Username or Password","Try Again");			}
 			}catch (Exception e) {
 				AlertUtil.alert("Login Error","Wrong Username or Password","Try Again");
 				MainApp.refreshEm();

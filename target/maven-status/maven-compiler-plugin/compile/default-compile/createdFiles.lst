@@ -2,6 +2,7 @@ pt\uc\dei\as\MainApp.class
 pt\uc\dei\as\controller\OrderOverviewController.class
 pt\uc\dei\as\controller\OrderOverviewController$2.class
 pt\uc\dei\as\entity\Product.class
+pt\uc\dei\as\MainApp$1.class
 pt\uc\dei\as\entity\Order.class
 pt\uc\dei\as\entity\ItemPK.class
 pt\uc\dei\as\controller\LoginScreenController.class
