@@ -7,6 +7,7 @@
 package pt.uc.dei.as.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
@@ -174,6 +175,7 @@ public class OrderOverviewController {
 	 */
 	@FXML
 	private void handleNewOrder() {
+		Orders_Log newOrderLog = new Orders_Log();
 		Order newOrder = new Order();
 		newOrder.setItems(new ArrayList<Item>());
 		boolean saveClicked = mainApp.showOrderEditorDialog(newOrder);
@@ -194,7 +196,14 @@ public class OrderOverviewController {
 				}
 
 				MainApp.em.merge(newOrder);
+				newOrderLog.setIdOrders(newOrder.getIdOrders());
+				newOrderLog.setIdWorkers(mainApp.getWorker().getIdWorkers());
+				newOrderLog.setWorkers_Name(mainApp.getWorker().getWorkers_Name());
+				Calendar today = Calendar.getInstance();
+				newOrderLog.setOrders_Date(today.getTime());
+				MainApp.em.merge(newOrderLog);
 				MainApp.em.getTransaction().commit();
+
 			} catch (Exception e) {
 				AlertUtil.alert("Could not complete the operation", "Something is wrong!", "Try again or restart the application");
 				handleRefresh();
@@ -257,6 +266,7 @@ public class OrderOverviewController {
 	 */
 	@FXML
 	private void handleToggleShipped() {
+		Shipping_Log newShipping_Log = new Shipping_Log();
 		if (orderTable.getItems() != null && orderTable.getItems().size() > 0
 				&& orderTable.getSelectionModel().getSelectedItem() != null) {
 			Order o = orderTable.getSelectionModel().getSelectedItem();
@@ -268,6 +278,17 @@ public class OrderOverviewController {
 
 			try {
 				MainApp.em.getTransaction().begin();
+
+				if(o.getOrders_Shipped()==1){
+					newShipping_Log.setIdOrders(o.getIdOrders());
+					newShipping_Log.setWorkers_Name(mainApp.getWorker().getWorkers_Name());
+					Calendar today = Calendar.getInstance();
+					newShipping_Log.setShipping_Date(today.getTime());
+					MainApp.em.merge(newShipping_Log);
+				}
+
+
+
 				MainApp.em.merge(o);
 				MainApp.em.getTransaction().commit();
 			} catch (Exception e) {

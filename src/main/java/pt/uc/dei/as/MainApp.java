@@ -21,6 +21,7 @@ import pt.uc.dei.as.entity.Order;
 import pt.uc.dei.as.entity.Worker;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -31,6 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import pt.uc.dei.as.entity.*;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -85,22 +87,33 @@ public class MainApp extends Application {
 /**
 	 * Sets the worker data.
 	 *
-	 * @param Worker using the app	 */
+	 * @param worker using the app	 */
 	public void setWorker(Worker worker) {
 		this.worker = worker;
 	}
+
+	public Worker getWorker(){return this.worker;}
 
 	/* (non-Javadoc)
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+		Workers_Log newLogin = new Workers_Log();
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("OrderAppFX");
 		this.primaryStage.getIcons().add(new Image("/images/sprout.png"));
 		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
+					MainApp.em.getTransaction().begin();
+					newLogin.setIdWorkers(worker.getIdWorkers());
+					newLogin.setWorkers_Name(worker.getWorkers_Name());
+					newLogin.setCheck_point(1); //0 - Login / 1 - Log out
+					Calendar today = Calendar.getInstance();
+					newLogin.setIn_out_Date(today.getTime());
+					MainApp.em.merge(newLogin);
+					MainApp.em.getTransaction().commit();
 					System.exit(0);
                 	//event.consume();
                 }

@@ -44,6 +44,10 @@ mysql -u eteuser -p ete_db < database/ete_db_Clients.sql
 mysql -u eteuser -p ete_db < database/ete_db_Orders.sql
 mysql -u eteuser -p ete_db < database/ete_db_Items.sql
 mysql -u eteuser -p ete_db < database/ete_db_Workers.sql
+mysql -u eteuser -p ete_db < database/ete_db_login_log.sql
+mysql -u eteuser -p ete_db < database/ete_db_order_log.sql
+mysql -u eteuser -p ete_db < database/ete_db_shipping_log.sql
+
 
 
 5 - Compile the source code and generate the Jar file
@@ -53,7 +57,7 @@ mvn clean jfx:jar
 
 6 - Execute the app
 
-java -jar target/jfx/app/OrderAppFX-0.0.1-jfx.jar
+java -jar target/jfx/app/OrderAppFX-0.0.1-jfx.jar 192.168.0.101
 
 If the database is not running on the local host, try the following alternatives:
 

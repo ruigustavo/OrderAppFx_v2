@@ -16,9 +16,11 @@ import pt.uc.dei.as.AlertUtil;
 import pt.uc.dei.as.MainApp;
 import pt.uc.dei.as.entity.*;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
+import java.util.Calendar;
 // TODO: Auto-generated Javadoc
 
 /**
@@ -35,6 +37,7 @@ public class LoginScreenController {
 
 	@FXML
 	private PasswordField passwordField;
+
 
 	private MainApp mainApp;
 
@@ -60,6 +63,7 @@ public class LoginScreenController {
 
 	@FXML
 	private void handleLogin() {
+		Workers_Log newLogin = new Workers_Log();
 		if(this.usernameField.getText().isEmpty() || this.passwordField.getText().isEmpty()) {
 			AlertUtil.alert("Empty data", "Please, fill every field.", "Try Again");
 		} else {
@@ -70,6 +74,14 @@ public class LoginScreenController {
 				w = queryW.getSingleResult();
 				if(w.getWorkers_Password().equals(this.passwordField.getText())) {
 						mainApp.setWorker(w);
+						MainApp.em.getTransaction().begin();
+						newLogin.setIdWorkers(w.getIdWorkers());
+						newLogin.setWorkers_Name(w.getWorkers_Name());
+						newLogin.setCheck_point(0); //0 - Login / 1 - Log out
+						Calendar today = Calendar.getInstance();
+						newLogin.setIn_out_Date(today.getTime());
+						MainApp.em.merge(newLogin);
+						MainApp.em.getTransaction().commit();
 						showOrderOverview();
 				}
 				else{
